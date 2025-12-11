@@ -83,3 +83,7 @@ app.*.map.json
 .env.local
 lib/utils/app_config.dart
 
+# Temporary/debug files
+Untitled
+**/Untitled
+
