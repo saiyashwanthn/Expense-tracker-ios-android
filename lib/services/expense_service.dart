@@ -17,27 +17,24 @@ class ExpenseService {
     final userId = await getCurrentUserId();
     if (userId == null) throw Exception('User not authenticated');
 
-    var query = _supabase
-        .from('expenses')
-        .select()
-        .eq('user_id', userId)
-        .order('date', ascending: false);
+    // Build query with conditional filters
+    final baseQuery = _supabase.from('expenses').select().eq('user_id', userId);
+    
+    final queryWithDateFilters = startDate != null
+        ? (baseQuery as dynamic).gte('date', startDate.toIso8601String())
+        : baseQuery;
+    
+    final queryWithEndDate = endDate != null
+        ? (queryWithDateFilters as dynamic).lte('date', endDate.toIso8601String())
+        : queryWithDateFilters;
+    
+    final queryWithCategory = categoryId != null
+        ? (queryWithEndDate as dynamic).eq('category_id', categoryId)
+        : queryWithEndDate;
 
-    if (startDate != null) {
-      query = query.gte('date', startDate.toIso8601String());
-    }
-
-    if (endDate != null) {
-      query = query.lte('date', endDate.toIso8601String());
-    }
-
-    if (categoryId != null) {
-      query = query.eq('category_id', categoryId);
-    }
-
-    final response = await query;
-    return (response as List)
-        .map((json) => Expense.fromJson(json))
+    final response = await (queryWithCategory as dynamic).order('date', ascending: false);
+    return (response as List<dynamic>)
+        .map((json) => Expense.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 
@@ -98,7 +95,11 @@ class ExpenseService {
       endDate: endDate,
     );
 
-    return expenses.fold(0.0, (sum, expense) => sum + expense.amount);
+    double total = 0.0;
+    for (final expense in expenses) {
+      total += expense.amount;
+    }
+    return total;
   }
 }
 

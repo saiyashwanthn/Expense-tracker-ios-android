@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../providers/expense_provider.dart';
+import '../models/category.dart';
 import '../providers/category_provider.dart';
 
 class AnalyticsScreen extends StatefulWidget {
@@ -108,7 +109,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                       value: null,
                       child: Text('All Categories'),
                     ),
-                    ...categoryProvider.categories.map((category) {
+                    ...categoryProvider.categories.map((Category category) {
                       return DropdownMenuItem<String>(
                         value: category.id,
                         child: Text('${category.icon} ${category.name}'),

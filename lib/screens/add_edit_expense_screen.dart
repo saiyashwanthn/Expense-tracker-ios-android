@@ -227,8 +227,8 @@ class _AddEditExpenseScreenState extends State<AddEditExpenseScreen> {
                           border: OutlineInputBorder(),
                           prefixIcon: Icon(Icons.category),
                         ),
-                        items: categoryProvider.categories.map((category) {
-                          return DropdownMenuItem(
+                        items: categoryProvider.categories.map((Category category) {
+                          return DropdownMenuItem<Category>(
                             value: category,
                             child: Row(
                               children: [
