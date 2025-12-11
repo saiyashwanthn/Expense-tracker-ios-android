@@ -89,20 +89,24 @@ class ExpenseProvider with ChangeNotifier {
   Future<Map<String, double>> getExpensesByCategory({
     DateTime? startDate,
     DateTime? endDate,
+    String? categoryId,
   }) async {
     return await _expenseService.getExpensesByCategory(
       startDate: startDate,
       endDate: endDate,
+      categoryId: categoryId,
     );
   }
 
   Future<double> getTotalExpenses({
     DateTime? startDate,
     DateTime? endDate,
+    String? categoryId,
   }) async {
     return await _expenseService.getTotalExpenses(
       startDate: startDate,
       endDate: endDate,
+      categoryId: categoryId,
     );
   }
 }

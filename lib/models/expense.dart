@@ -29,10 +29,19 @@ class Expense {
       'category_name': categoryName,
       'amount': amount,
       'description': description,
-      'date': date.toIso8601String(),
+      // Format date as YYYY-MM-DD for DATE column (not TIMESTAMP)
+      'date': _formatDateOnly(date),
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };
+  }
+
+  /// Formats a DateTime as YYYY-MM-DD string for DATE column storage
+  /// This ensures proper storage in PostgreSQL DATE columns
+  static String _formatDateOnly(DateTime date) {
+    return '${date.year.toString().padLeft(4, '0')}-'
+        '${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')}';
   }
 
   factory Expense.fromJson(Map<String, dynamic> json) {

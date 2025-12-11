@@ -20,12 +20,13 @@ class ExpenseService {
     // Build query with conditional filters
     final baseQuery = _supabase.from('expenses').select().eq('user_id', userId);
     
+    // Format dates as YYYY-MM-DD for DATE column comparisons
     final queryWithDateFilters = startDate != null
-        ? (baseQuery as dynamic).gte('date', startDate.toIso8601String())
+        ? (baseQuery as dynamic).gte('date', _formatDateOnly(startDate))
         : baseQuery;
     
     final queryWithEndDate = endDate != null
-        ? (queryWithDateFilters as dynamic).lte('date', endDate.toIso8601String())
+        ? (queryWithDateFilters as dynamic).lte('date', _formatDateOnly(endDate))
         : queryWithDateFilters;
     
     final queryWithCategory = categoryId != null
@@ -36,6 +37,14 @@ class ExpenseService {
     return (response as List<dynamic>)
         .map((json) => Expense.fromJson(json as Map<String, dynamic>))
         .toList();
+  }
+
+  /// Formats a DateTime as YYYY-MM-DD string for DATE column comparisons
+  /// This ensures proper comparison with PostgreSQL DATE columns
+  String _formatDateOnly(DateTime date) {
+    return '${date.year.toString().padLeft(4, '0')}-'
+        '${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')}';
   }
 
   Future<Expense> createExpense(Expense expense) async {
@@ -71,10 +80,12 @@ class ExpenseService {
   Future<Map<String, double>> getExpensesByCategory({
     DateTime? startDate,
     DateTime? endDate,
+    String? categoryId,
   }) async {
     final expenses = await getExpenses(
       startDate: startDate,
       endDate: endDate,
+      categoryId: categoryId,
     );
 
     final Map<String, double> categoryTotals = {};
@@ -89,10 +100,12 @@ class ExpenseService {
   Future<double> getTotalExpenses({
     DateTime? startDate,
     DateTime? endDate,
+    String? categoryId,
   }) async {
     final expenses = await getExpenses(
       startDate: startDate,
       endDate: endDate,
+      categoryId: categoryId,
     );
 
     double total = 0.0;

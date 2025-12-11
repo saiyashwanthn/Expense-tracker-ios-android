@@ -136,6 +136,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   future: expenseProvider.getExpensesByCategory(
                     startDate: _startDate,
                     endDate: _endDate,
+                    categoryId: _selectedCategoryId,
                   ),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
