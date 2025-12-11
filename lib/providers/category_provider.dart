@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show ChangeNotifier;
 import '../models/category.dart';
 import '../services/category_service.dart';
 
@@ -39,7 +39,7 @@ class CategoryProvider with ChangeNotifier {
     try {
       final newCategory = await _categoryService.createCategory(category);
       _categories.add(newCategory);
-      _categories.sort((a, b) {
+      _categories.sort((Category a, Category b) {
         if (a.isDefault != b.isDefault) {
           return a.isDefault ? -1 : 1;
         }

@@ -4,8 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'services/notification_service.dart';
-import 'services/expense_service.dart';
-import 'services/category_service.dart';
 import 'providers/expense_provider.dart';
 import 'providers/category_provider.dart';
 import 'providers/settings_provider.dart';
@@ -50,7 +48,7 @@ class MyApp extends StatelessWidget {
             brightness: Brightness.light,
           ),
           useMaterial3: true,
-          cardTheme: CardTheme(
+          cardTheme: CardThemeData(
             elevation: 2,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
