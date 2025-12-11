@@ -3,8 +3,8 @@
 
 class AppConfig {
   // Replace with your Supabase project URL and anon key
-  static const String supabaseUrl = 'YOUR_SUPABASE_URL';
-  static const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+  static const String supabaseUrl = 'https://fpoooyvabxloaybzrmal.supabase.co';
+  static const String supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZwb29veXZhYnhsb2F5YnpybWFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0NDI2MzEsImV4cCI6MjA4MTAxODYzMX0.5fMRT1GxGtD9-F4e3iTGFTQlk6rEoYSTswkBj2VC-WY';
   
   // App Constants
   static const String appName = 'Expense Tracker';
